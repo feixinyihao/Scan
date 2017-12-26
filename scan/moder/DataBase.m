@@ -169,5 +169,14 @@ static DataBase *_DBCtl = nil;
     [_db close];
     return dataArray;
     
+/**
+ 删除所有url
+ */
+}
+-(void)deleteAllUrl{
+    [_db open];
+    NSString*sql=[NSString stringWithFormat:@"DELETE FROM tblUrl"];
+    [_db executeUpdate:sql];
+    [_db close];
 }
 @end

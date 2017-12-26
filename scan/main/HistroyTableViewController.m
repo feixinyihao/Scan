@@ -49,7 +49,7 @@
     self.navigationItem.leftBarButtonItem=barButton;
     
     UIButton*editBtn=[[UIButton alloc]init];
-    [editBtn addTarget:self action:@selector(delete) forControlEvents:UIControlEventTouchUpInside];
+    [editBtn addTarget:self action:@selector(edit) forControlEvents:UIControlEventTouchUpInside];
     [editBtn setImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
     UIBarButtonItem*editBarButton=[[UIBarButtonItem alloc]initWithCustomView:editBtn];
     self.navigationItem.rightBarButtonItem=editBarButton;
@@ -140,10 +140,30 @@
     return @"删除";
 }
 -(void)delete{
-    NSLog(@"ffff");
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"是否删除所有记录？"
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                        style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction *action) {
+                                                          
+                                                          [[DataBase sharedDataBase] deleteAllUrl];
+                                                          self.dataArray=[[DataBase sharedDataBase] getAllUrl];
+                                                          [self.tableView reloadData];
+                                                      }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"取消"
+                                                        style:UIAlertActionStyleCancel
+                                                      handler:^(UIAlertAction *action){
+                                                          
+                                                      }]];
+    
+    [self presentViewController:alertController animated:YES completion:^{}];
+}
+-(void)edit{
+     [self.tableView setEditing:!self.tableView.editing animated:YES];
 }
 -(void)hideKeyboard{
-    NSLog(@"hideKeyboard");
+
     [self.navigationItem.titleView endEditing:YES];
 }
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{

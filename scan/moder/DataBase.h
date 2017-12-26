@@ -42,4 +42,9 @@
  @return 返回对象数组
  */
 -(NSMutableArray*)getUrlLike:(NSString*)key;
+
+/**
+ 删除所有url
+ */
+-(void)deleteAllUrl;
 @end
