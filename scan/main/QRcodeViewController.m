@@ -14,6 +14,7 @@
 #import "DataBase.h"
 #import "URL.h"
 #import <TZImagePickerController.h>
+#import "HistroyTableViewController.h"
 @interface QRcodeViewController()<AVCaptureMetadataOutputObjectsDelegate,TZImagePickerControllerDelegate>
 @property (strong,nonatomic)AVCaptureDevice *device;
 @property (strong,nonatomic)AVCaptureDeviceInput *input;
@@ -22,6 +23,8 @@
 @property (strong,nonatomic)AVCaptureVideoPreviewLayer *preview;
 // 是否打开手电筒
 @property (nonatomic,assign,getter = isTorchOn) BOOL torchOn;
+
+@property(nonatomic,strong)UIBarButtonItem*torchBarBrn;
 //手电筒按钮
 @property(nonatomic,weak)UIButton*torchBtn;
 
@@ -50,18 +53,14 @@
 
 }
 -(void)setupBarButoon{
-    UIButton*torchBtn=[[UIButton alloc]init];
-    [torchBtn addTarget:self action:@selector(turnOnOrOffTorch) forControlEvents:UIControlEventTouchUpInside];
-    self.torchBtn=torchBtn;
-    [self.torchBtn setImage:[UIImage imageNamed:@"torch"] forState:UIControlStateNormal];
-    [self.torchBtn setImage:[UIImage imageNamed:@"torch_off"] forState:UIControlStateSelected];
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.torchBtn];
-    self.navigationItem.rightBarButtonItem = barButtonItem;
+  
+    UIImage*torchImage=[[UIImage imageNamed:@"torch"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.torchBarBrn=[[UIBarButtonItem alloc]initWithImage:torchImage style:UIBarButtonItemStylePlain target:self action:@selector(turnOnOrOffTorch)];
+    self.navigationItem.rightBarButtonItem = self.torchBarBrn;
     
-    UIButton*imageBtn=[[UIButton alloc]init];
-    [imageBtn addTarget:self action:@selector(openImagePicker) forControlEvents:UIControlEventTouchUpInside];
-    [imageBtn setImage:[UIImage imageNamed:@"openImage"] forState:UIControlStateNormal];
-    UIBarButtonItem *leftbarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:imageBtn];
+ 
+    UIImage*image=[[UIImage imageNamed:@"openImage"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *leftbarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(openImagePicker)];
     self.navigationItem.leftBarButtonItem = leftbarButtonItem;
     
 }
@@ -80,6 +79,7 @@
     [MBProgressHUD hideHUDForView:self.caves animated:YES];
     [self deleteScanAnimate];
     [self addscananimate];
+    [_session startRunning];
 
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -213,18 +213,18 @@
         AVMetadataMachineReadableCodeObject *metadataObject = [metadataObjects objectAtIndex:0];
         stringValue = metadataObject.stringValue;
     }
+    /*
     if ([self isincluded:@"http" in:stringValue]) {
         SFSafariViewController*safar=[[SFSafariViewController alloc]initWithURL:[NSURL URLWithString:stringValue]];
         [safar setHidesBottomBarWhenPushed:YES];
-//        [self.navigationController presentViewController:safar animated:YES completion:^{
-//           [_session startRunning];
-//        }];
         [self presentViewController:safar animated:YES completion:^{
             [_session startRunning];
         }];
-    }
+    }*/
    
     [self addData:stringValue];
+  //  self.tabBarController.selectedIndex=1;
+    [self alert:stringValue];
     
 }
 
@@ -252,7 +252,14 @@
 #pragma mark - 打开／关闭手电筒
 -(void)turnOnOrOffTorch {
     self.torchOn = !self.isTorchOn;
-    
+    if (self.torchOn) {
+        UIImage*torchImage=[[UIImage imageNamed:@"torch_off"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        [self.torchBarBrn setImage:torchImage];
+    }else{
+        UIImage*torchImage=[[UIImage imageNamed:@"torch"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        [self.torchBarBrn setImage:torchImage];
+        
+    }
     if ([self.device hasTorch]){ // 判断是否有闪光灯
         [self.device lockForConfiguration:nil];// 请求独占访问硬件设备
         
@@ -270,7 +277,19 @@
         [MBProgressHUD showError:@"没有摄像头"];
     }
 }
-
+-(void)alert:(NSString*)scannedResult{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"二维码"
+                                                                             message:scannedResult
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定"
+                                                        style:UIAlertActionStyleCancel
+                                                      handler:^(UIAlertAction *action) {
+                                                          [_session startRunning];
+                                                          
+                                                      }]];
+    
+    [self presentViewController:alertController animated:YES completion:^{}];
+}
 /**
  识别图片二维码
  */
@@ -286,16 +305,8 @@
             CIQRCodeFeature *feature = [features objectAtIndex:0];
             NSString *scannedResult = feature.messageString;
             [self addData:scannedResult];
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"二维码"
-                                                                                     message:scannedResult
-                                                                              preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"确定"
-                                                                style:UIAlertActionStyleCancel
-                                                              handler:^(UIAlertAction *action) {
-                                                                  
-                                                              }]];
-            
-            [self presentViewController:alertController animated:YES completion:^{}];
+          
+            [self alert:scannedResult];
         }else{
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您还没有生成二维码"
                                                                                      message:nil

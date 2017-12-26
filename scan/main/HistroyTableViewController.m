@@ -16,20 +16,20 @@
 @end
 
 @implementation HistroyTableViewController
-
+#define  screenW [UIScreen mainScreen].bounds.size.width
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UISearchBar*searchBar=[[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 250, 44)];
+    UISearchBar*searchBar=[[UISearchBar alloc]init];
     searchBar.delegate=self;
     [searchBar setBarStyle:UIBarStyleDefault];
     [searchBar setPlaceholder:@"搜索"];
     
-    UIView*searchView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 250, 44)];
+    UIView*searchView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, screenW-180, 44)];
     searchView.backgroundColor=[UIColor clearColor];
     [searchView addSubview:searchBar];
     
-    self.navigationItem.titleView=searchView ;
+    self.navigationItem.titleView=searchBar ;
     
     //    添加点击键盘消失的手势
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
@@ -42,16 +42,13 @@
     
 }
 -(void)setupBarButtonItem{
-    UIButton*deleteBtn=[[UIButton alloc]init];
-    [deleteBtn addTarget:self action:@selector(delete) forControlEvents:UIControlEventTouchUpInside];
-    [deleteBtn setImage:[UIImage imageNamed:@"delete"] forState:UIControlStateNormal];
-    UIBarButtonItem*barButton=[[UIBarButtonItem alloc]initWithCustomView:deleteBtn];
+    UIImage*deleteImage=[[UIImage imageNamed:@"delete"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem*barButton=[[UIBarButtonItem alloc]initWithImage:deleteImage style:UIBarButtonItemStylePlain target:self action:@selector(delete)];
     self.navigationItem.leftBarButtonItem=barButton;
-    
-    UIButton*editBtn=[[UIButton alloc]init];
-    [editBtn addTarget:self action:@selector(edit) forControlEvents:UIControlEventTouchUpInside];
-    [editBtn setImage:[UIImage imageNamed:@"edit"] forState:UIControlStateNormal];
-    UIBarButtonItem*editBarButton=[[UIBarButtonItem alloc]initWithCustomView:editBtn];
+  
+   
+    UIImage*editImage=[[UIImage imageNamed:@"edit"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem*editBarButton=[[UIBarButtonItem alloc]initWithImage:editImage style:UIBarButtonItemStylePlain target:self action:@selector(edit)];
     self.navigationItem.rightBarButtonItem=editBarButton;
     
    

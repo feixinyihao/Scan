@@ -47,7 +47,13 @@
    
     
 }
-
+-(Boolean)isincluded:(NSString*)str in:(NSString*)supStr{
+    
+    if([supStr rangeOfString:str].location !=NSNotFound){
+        return YES;
+    }else
+        return NO;
+}
 
 
 #pragma mark - Table view data source
@@ -158,6 +164,12 @@
                 break;
         }
        
+    }else if (indexPath.section==0){
+        if ([self isincluded:@"http" in:self.url]) {
+            NSURL*url=[[NSURL alloc]initWithString:self.url];
+            SFSafariViewController*safar=[[SFSafariViewController alloc]initWithURL:url];
+            [self presentViewController:safar animated:YES completion:nil];
+        }
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
