@@ -8,6 +8,8 @@
 
 #import "HistroyDetailViewController.h"
 #import "CommonFunc.h"
+#import "MBProgressHUD+MJ.h"
+#import <SafariServices/SafariServices.h>
 @interface HistroyDetailViewController ()
 @end
 
@@ -34,6 +36,19 @@
     [tableView setTableFooterView:view];
     
 }
+/**
+ * 复制
+ */
+- (void)copylinkBtnClick {
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = self.url;
+    [MBProgressHUD showSuccess:@"扫描结果已经复制到剪贴板"];
+
+   
+    
+}
+
+
 
 #pragma mark - Table view data source
 
@@ -67,7 +82,24 @@
         label.font=[UIFont systemFontOfSize:17];
         [cell.contentView addSubview:label];
     }else if(indexPath.section==1){
-        cell.textLabel.text=@"功能";
+        switch (indexPath.row) {
+            case 0:
+                cell.textLabel.text=@"复制";
+                break;
+            case 1:
+                cell.textLabel.text=@"比价格";
+                break;
+            case 2:
+                cell.textLabel.text=@"查快递";
+                break;
+            case 3:
+                cell.textLabel.text=@"搜索";
+                break;
+            default:
+                
+                break;
+        }
+     
     }else{
         self.view.backgroundColor=[UIColor whiteColor];
         UIImageView*imageview=[[UIImageView alloc]initWithFrame:CGRectMake(30,20, screenW-60, screenW-60)];
@@ -101,6 +133,32 @@
     return view;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    if (indexPath.section==1) {
+        switch (indexPath.row) {
+            case 0:
+                [self copylinkBtnClick];
+                break;
+            case 1:{
+                NSURL*url=[NSURL URLWithString:[NSString stringWithFormat:@"https://graph.baidu.com/s?barcode=%@",self.url]];
+                SFSafariViewController*safar=[[SFSafariViewController alloc]initWithURL:url];
+                [self presentViewController:safar animated:YES completion:nil];
+                
+            }
+                break;
+            case 2:{
+                
+            }break;
+            case 3:{
+                NSURL*url=[NSURL URLWithString:[NSString stringWithFormat:@"https://baidu.com/s?wd=%@",self.url]];
+                SFSafariViewController*safar=[[SFSafariViewController alloc]initWithURL:url];
+                [self presentViewController:safar animated:YES completion:nil];
+            }
+                break;
+            default:
+                break;
+        }
+       
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 @end

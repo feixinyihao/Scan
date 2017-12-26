@@ -46,7 +46,6 @@
     [self setupCamera];
     
     [self setupBarButoon];
-   
   
 
 }
