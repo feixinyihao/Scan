@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HistroyDetailViewController : UIViewController
+@interface HistroyDetailViewController : UITableViewController
 @property(nonatomic,copy)NSString*url;
 @end

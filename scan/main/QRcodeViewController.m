@@ -86,6 +86,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self deleteScanAnimate];
+   // [self addData:@"https://unifound?dfsasddahqwbduiq_dsfskkkdjiejfrdbkjadsakjbdkjsda.cc"];
 }
 -(void)deleteScanAnimate{
     for (UIView*view in self.view.subviews) {
