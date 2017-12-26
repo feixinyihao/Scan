@@ -131,7 +131,7 @@ static DataBase *_DBCtl = nil;
         
     NSMutableArray *dataArray = [[NSMutableArray alloc] init];
         
-    FMResultSet *res = [_db executeQuery:@"SELECT * FROM tblUrl ORDER BY url_id DESC"];
+    FMResultSet *res = [_db executeQuery:@"SELECT * FROM tblUrl ORDER BY id DESC"];
         
     while ([res next]) {
         URL*url=[[URL alloc]init];

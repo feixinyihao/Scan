@@ -14,7 +14,7 @@
 #import "DataBase.h"
 #import "URL.h"
 #import <TZImagePickerController.h>
-#import "HistroyTableViewController.h"
+#import "HistroyDetailViewController.h"
 @interface QRcodeViewController()<AVCaptureMetadataOutputObjectsDelegate,TZImagePickerControllerDelegate>
 @property (strong,nonatomic)AVCaptureDevice *device;
 @property (strong,nonatomic)AVCaptureDeviceInput *input;
@@ -168,7 +168,16 @@
 //    AVMetadataObjectTypePDF417Code
 //    AVMetadataObjectTypeQRCode
 //    AVMetadataObjectTypeAztecCode
-    self.output.metadataObjectTypes =@[AVMetadataObjectTypeQRCode];
+    self.output.metadataObjectTypes =@[AVMetadataObjectTypeQRCode
+                                       ,AVMetadataObjectTypeUPCECode
+                                       ,AVMetadataObjectTypeCode39Code
+                                       ,AVMetadataObjectTypeEAN13Code
+                                       ,AVMetadataObjectTypeEAN8Code
+                                       ,AVMetadataObjectTypeCode93Code
+                                       ,AVMetadataObjectTypeCode128Code
+                                       ,AVMetadataObjectTypePDF417Code
+                                       ,AVMetadataObjectTypeQRCode
+                                       ,AVMetadataObjectTypeAztecCode];
     
     // Preview
     self.preview = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
@@ -224,7 +233,11 @@
    
     [self addData:stringValue];
   //  self.tabBarController.selectedIndex=1;
-    [self alert:stringValue];
+   // [self alert:stringValue];
+    HistroyDetailViewController*detail=[[HistroyDetailViewController alloc]init];
+    [detail setHidesBottomBarWhenPushed:YES];
+    detail.url=stringValue;
+    [self.navigationController pushViewController:detail animated:YES];
     
 }
 
@@ -282,7 +295,7 @@
                                                                              message:scannedResult
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     [alertController addAction:[UIAlertAction actionWithTitle:@"确定"
-                                                        style:UIAlertActionStyleCancel
+                                                        style:UIAlertActionStyleDefault
                                                       handler:^(UIAlertAction *action) {
                                                           [_session startRunning];
                                                           
@@ -306,7 +319,14 @@
             NSString *scannedResult = feature.messageString;
             [self addData:scannedResult];
           
-            [self alert:scannedResult];
+           // [self alert:scannedResult];
+            HistroyDetailViewController*detail=[[HistroyDetailViewController alloc]init];
+            [detail setHidesBottomBarWhenPushed:YES];
+            detail.url=scannedResult;
+
+            [self.navigationController pushViewController:detail animated:YES];
+        
+           
         }else{
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您还没有生成二维码"
                                                                                      message:nil

@@ -10,6 +10,7 @@
 #import "CommonFunc.h"
 #import "MBProgressHUD+MJ.h"
 #import <SafariServices/SafariServices.h>
+
 @interface HistroyDetailViewController ()
 @end
 
