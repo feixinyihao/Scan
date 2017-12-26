@@ -157,7 +157,7 @@ static DataBase *_DBCtl = nil;
     [_db open];
     NSMutableArray*dataArray=[NSMutableArray array];
     
-    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM tblUrl WHERE url like '%%%@%%' ORDER BY url_id DESC",key];
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM tblUrl WHERE url like '%%%@%%' ORDER BY id DESC",key];
     FMResultSet*res=[_db executeQuery:sql];
     while ([res next]) {
         URL*url=[[URL alloc]init];

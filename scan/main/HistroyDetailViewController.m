@@ -10,8 +10,9 @@
 #import "CommonFunc.h"
 #import "MBProgressHUD+MJ.h"
 #import <SafariServices/SafariServices.h>
-
+#import "UIImage+LXDCreateBarcode.h"
 @interface HistroyDetailViewController ()
+@property(nonatomic,weak)UIImageView*QRImageView;
 @end
 
 @implementation HistroyDetailViewController
@@ -69,7 +70,7 @@
     if (section==0) {
         return 1;
     }else if(section==1){
-        return 4;
+        return 6;
     }else{
         return 1;
     }
@@ -88,6 +89,7 @@
         label.numberOfLines = 0;
         label.font=[UIFont systemFontOfSize:17];
         [cell.contentView addSubview:label];
+       
     }else if(indexPath.section==1){
         switch (indexPath.row) {
             case 0:
@@ -102,17 +104,29 @@
             case 3:
                 cell.textLabel.text=@"搜索";
                 break;
+            case 4:
+                cell.textLabel.text=@"定制二维码";
+                break;
+            case 5:
+                cell.textLabel.text=@"分享二维码";
+                break;
             default:
                 
                 break;
         }
      
     }else{
-        self.view.backgroundColor=[UIColor whiteColor];
         UIImageView*imageview=[[UIImageView alloc]initWithFrame:CGRectMake(30,20, screenW-60, screenW-60)];
         UIImage*qrImagge=[CommonFunc createQRForString:self.url];
         [imageview setImage:qrImagge];
-        [cell.contentView addSubview:imageview];
+        self.QRImageView=imageview;
+        [cell.contentView addSubview:self.QRImageView];
+        //添加长按手势
+        UILongPressGestureRecognizer *longPressGR = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(lpGR:)];
+        
+        //设定最小的长按时间 按不够这个时间不响应手势
+        longPressGR.minimumPressDuration = 1;
+        [cell addGestureRecognizer:longPressGR];
         
     }
     return cell;
@@ -161,6 +175,14 @@
                 [self presentViewController:safar animated:YES completion:nil];
             }
                 break;
+            case 4:{
+                UIImage * image = [UIImage imageOfQRFromURL: self.url codeSize: 300 red: 27 green: 161 blue: 232 insertImage: [UIImage imageNamed: @"logo"] roundRadius: 15.0f];
+                [self.QRImageView setImage:image];
+                
+            }break;
+            case 5:{
+                
+            }break;
             default:
                 break;
         }
@@ -173,5 +195,32 @@
         }
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+/**
+ 实现长按手势功能
+
+ */
+-(void)lpGR:(UILongPressGestureRecognizer *)lpGR
+
+{
+
+    if (lpGR.state == UIGestureRecognizerStateBegan) {//手势开始
+        
+        NSLog(@"开始了");
+        UIImage * image = [UIImage imageOfQRFromURL: self.url codeSize: 300 red: 27 green: 161 blue: 232 insertImage: [UIImage imageNamed: @"logo"] roundRadius: 15.0f];
+        [self.QRImageView setImage:image];
+        
+    }
+    
+    if (lpGR.state == UIGestureRecognizerStateEnded)//手势结束
+        
+    {
+        NSLog(@"结束了");
+        
+        
+    }
+    
 }
 @end

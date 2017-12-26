@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		69949F831FF28A5000089C6D /* UIImage+RoundRectImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 69949F7F1FF28A4F00089C6D /* UIImage+RoundRectImage.m */; };
+		69949F841FF28A5000089C6D /* UIImage+LXDCreateBarcode.m in Sources */ = {isa = PBXBuildFile; fileRef = 69949F811FF28A4F00089C6D /* UIImage+LXDCreateBarcode.m */; };
 		69B5454F1FEE18C100B06C2F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B5454E1FEE18C100B06C2F /* AppDelegate.m */; };
 		69B545521FEE18C100B06C2F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B545511FEE18C100B06C2F /* ViewController.m */; };
 		69B545571FEE18C100B06C2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 69B545561FEE18C100B06C2F /* Assets.xcassets */; };
@@ -49,6 +51,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		69949F7F1FF28A4F00089C6D /* UIImage+RoundRectImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundRectImage.m"; sourceTree = "<group>"; };
+		69949F801FF28A4F00089C6D /* UIImage+LXDCreateBarcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+LXDCreateBarcode.h"; sourceTree = "<group>"; };
+		69949F811FF28A4F00089C6D /* UIImage+LXDCreateBarcode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+LXDCreateBarcode.m"; sourceTree = "<group>"; };
+		69949F821FF28A5000089C6D /* UIImage+RoundRectImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundRectImage.h"; sourceTree = "<group>"; };
 		69B5454A1FEE18C100B06C2F /* scan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = scan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69B5454D1FEE18C100B06C2F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		69B5454E1FEE18C100B06C2F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -231,6 +237,10 @@
 		69B545941FEE2C0900B06C2F /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				69949F801FF28A4F00089C6D /* UIImage+LXDCreateBarcode.h */,
+				69949F811FF28A4F00089C6D /* UIImage+LXDCreateBarcode.m */,
+				69949F821FF28A5000089C6D /* UIImage+RoundRectImage.h */,
+				69949F7F1FF28A4F00089C6D /* UIImage+RoundRectImage.m */,
 				69B545951FEE2C1700B06C2F /* MBProgressHUD */,
 			);
 			path = lib;
@@ -464,9 +474,11 @@
 				69B545DC1FEE720F00B06C2F /* DataBase.m in Sources */,
 				69B545871FEE1CEF00B06C2F /* CustomButton.m in Sources */,
 				69B545811FEE1C5C00B06C2F /* HomeTableViewController.m in Sources */,
+				69949F841FF28A5000089C6D /* UIImage+LXDCreateBarcode.m in Sources */,
 				69B545D61FEE3FA200B06C2F /* URL.m in Sources */,
 				69B545A01FEE2C3500B06C2F /* CoverView.m in Sources */,
 				69B545931FEE2B3E00B06C2F /* QRcodeViewController.m in Sources */,
+				69949F831FF28A5000089C6D /* UIImage+RoundRectImage.m in Sources */,
 				69B5459C1FEE2C1700B06C2F /* MBProgressHUD+MJ.m in Sources */,
 				69B545841FEE1CA000B06C2F /* WBTabbar.m in Sources */,
 				69B545DF1FEF11E700B06C2F /* HistroyDetailViewController.m in Sources */,

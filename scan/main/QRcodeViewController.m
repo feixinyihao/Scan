@@ -264,16 +264,17 @@
 }
 #pragma mark - 打开／关闭手电筒
 -(void)turnOnOrOffTorch {
-    self.torchOn = !self.isTorchOn;
-    if (self.torchOn) {
-        UIImage*torchImage=[[UIImage imageNamed:@"torch_off"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        [self.torchBarBrn setImage:torchImage];
-    }else{
-        UIImage*torchImage=[[UIImage imageNamed:@"torch"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        [self.torchBarBrn setImage:torchImage];
-        
-    }
+    
     if ([self.device hasTorch]){ // 判断是否有闪光灯
+        self.torchOn = !self.isTorchOn;
+        if (self.torchOn) {
+            UIImage*torchImage=[[UIImage imageNamed:@"torch_off"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            [self.torchBarBrn setImage:torchImage];
+        }else{
+            UIImage*torchImage=[[UIImage imageNamed:@"torch"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            [self.torchBarBrn setImage:torchImage];
+            
+        }
         [self.device lockForConfiguration:nil];// 请求独占访问硬件设备
         
         if (self.isTorchOn) {
@@ -287,7 +288,7 @@
         }
         [self.device unlockForConfiguration];// 请求解除独占访问硬件设备
     }else {
-        [MBProgressHUD showError:@"没有摄像头"];
+        [MBProgressHUD showError:@"没有闪光灯"];
     }
 }
 -(void)alert:(NSString*)scannedResult{

@@ -22,8 +22,6 @@
     NSData *stringData = [qrString dataUsingEncoding:NSUTF8StringEncoding];
     [filter setValue:stringData forKey:@"inputMessage"];
     CIImage *ciImage = [filter outputImage];
-    //创建普通二维码
-    //UIImage *image = [UIImage imageWithCIImage:ciImage];
     //创建高清二维码
     UIImage *image = [self creatImage:ciImage size:300];
     //头像图片
