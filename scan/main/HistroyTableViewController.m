@@ -11,14 +11,19 @@
 #import "URL.h"
 #import <SafariServices/SafariServices.h>
 #import "HistroyDetailViewController.h"
+
 @interface HistroyTableViewController ()<UISearchBarDelegate>
 @property(nonatomic,strong)NSMutableArray*dataArray;
+
+
 @end
 
 @implementation HistroyTableViewController
 #define  screenW [UIScreen mainScreen].bounds.size.width
+#define  screenH [UIScreen mainScreen].bounds.size.height
 - (void)viewDidLoad {
     [super viewDidLoad];
+   
     
     UISearchBar*searchBar=[[UISearchBar alloc]init];
     searchBar.delegate=self;
@@ -38,8 +43,15 @@
     [self setupBarButtonItem];
     
     [self setExtraCellLineHidden:self.tableView];
-   
+ 
     
+}
+- (NSString *)createUUID
+{
+    CFUUIDRef uuid = CFUUIDCreate(NULL);
+    CFStringRef string = CFUUIDCreateString(NULL, uuid);
+    CFRelease(uuid);
+    return (__bridge NSString *)string;
 }
 -(void)setupBarButtonItem{
     UIImage*deleteImage=[[UIImage imageNamed:@"delete"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];

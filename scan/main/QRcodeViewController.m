@@ -15,6 +15,7 @@
 #import "URL.h"
 #import <TZImagePickerController.h>
 #import "HistroyDetailViewController.h"
+#import <GoogleMobileAds/GoogleMobileAds.h>
 @interface QRcodeViewController()<AVCaptureMetadataOutputObjectsDelegate,TZImagePickerControllerDelegate>
 @property (strong,nonatomic)AVCaptureDevice *device;
 @property (strong,nonatomic)AVCaptureDeviceInput *input;
@@ -28,7 +29,7 @@
 //手电筒按钮
 @property(nonatomic,weak)UIButton*torchBtn;
 
-
+@property (weak, nonatomic) GADBannerView  *bannerView;
 @property(nonatomic,strong)UIView* caves;
 @end
 @implementation QRcodeViewController
@@ -50,7 +51,19 @@
     
     [self setupBarButoon];
   
+    
 
+}
+-(void)setupGoogleAd{
+    
+    GADBannerView*bannerView=[[GADBannerView alloc]initWithFrame:CGRectMake(0, SCREENH-49-44, SCREENW, 44)];
+    self.bannerView=bannerView;
+    self.bannerView.adUnitID =@"ca-app-pub-4043553871343091/5035842135";
+    self.bannerView.rootViewController = self;
+    GADRequest*request=[GADRequest request];
+    //request.testDevices = @[kGADSimulatorID,   [[UIDevice currentDevice] identifierForVendor]];
+    [self.view addSubview:self.bannerView];
+    [self.bannerView loadRequest:request];
 }
 -(void)setupBarButoon{
   
@@ -80,6 +93,7 @@
     [self deleteScanAnimate];
     [self addscananimate];
     [_session startRunning];
+    [self setupGoogleAd];
 
 }
 -(void)viewWillDisappear:(BOOL)animated{

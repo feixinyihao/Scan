@@ -47,4 +47,6 @@
  删除所有url
  */
 -(void)deleteAllUrl;
+
+- (NSArray *)allProperties:(id)class;
 @end

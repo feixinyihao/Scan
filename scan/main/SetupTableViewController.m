@@ -7,7 +7,8 @@
 //
 
 #import "SetupTableViewController.h"
-
+#import "URL.h"
+#import "DataBase.h"
 @interface SetupTableViewController ()
 
 @end
@@ -46,6 +47,11 @@
     return cell;
 }
 
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    URL*url=[[URL alloc]init];
+    NSLog(@"%@",[[DataBase sharedDataBase]allProperties:url]) ;
+       
+}
 
 @end
